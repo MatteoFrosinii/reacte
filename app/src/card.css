@@ -1,0 +1,12 @@
+.Card {
+    background-color:coral;
+    border: 2px solid crimson;
+    border-radius: 8px 8px 8px 8px;
+    height: 250px;
+    width: 200px;
+    transition: scale 0.4s linear;
+}
+
+.Card:hover{
+    scale: 2;
+}
