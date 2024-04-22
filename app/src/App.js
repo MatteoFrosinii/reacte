@@ -1,30 +1,50 @@
 import './App.css';
 import Card from "./Card";
+import { useEffect, useState } from "react";
+import ApiLoader from './ApiLoader.js';
 
 function App() {
 
-  const users = [
-    {id: 1, nome: "Nome 1", cognome: "Cognome 1"},
-    {id: 2, nome: "Nome 2", cognome: "Cognome 2"},
-    {id: 3, nome: "Nome 3", cognome: "Cognome 3"},
-    {id: 4, nome: "Nome 4", cognome: "Cognome 4"},
-    {id: 5, nome: "Nome 5", cognome: "Cognome 5"},
-    {id: 6, nome: "Nome 6", cognome: "Cognome 6"},
-    {id: 7, nome: "Nome 7", cognome: "Cognome 7"},
-    {id: 8, nome: "Nome 8", cognome: "Cognome 8"},
-    {id: 9, nome: "Nome 9", cognome: "Cognome 9"},
-    {id: 10, nome: "Nome 10", cognome: "Cognome 10"},
-  ]
+  const [users, setUsers] = useState([])
+  const [isLoading, setLoading] = useState(false)
+  const [isDeleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    loadData();
+  }, [])
+
+  async function loadData() {
+    setLoading(true)
+    const response = await fetch('http://localhost:8080/alunni', {method: "GET"})
+    const usersData = await response.json()
+    setLoading(false)
+
+    setUsers(usersData)
+  }
+
+  function prova() {
+    ApiLoader.getInstance().test();
+  }
 
   return (
-    <div className = "App flex-container">
+    <div className = "App">
+    { prova }
+    <h1 className='scrittaLista'> Lista alunni: </h1>
       {
-        users.map(
-          ((user) => <Card nome = {user.nome} cognome = {user.cognome} />)
-          )
+        isLoading ? 
+          <div className = "loading">
+            in caricamento...
+          </div>  :
+        <div className = "flexbox flex-container">
+          {
+          users.map(((user) => 
+          <Card user = {user} loadData={loadData} key = {user.id}/>))
+          }
+        </div>
       }
     </div>
   );
 }
 //flexbox css
+// https://www.tutorialspoint.com/overlapping-elements-with-z-index-using-css#:~:text=Using%20CSS%20Z%2DIndex%20property,is%20mentioned%20last%20in%20document.
 export default App;

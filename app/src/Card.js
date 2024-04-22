@@ -1,7 +1,9 @@
 import logoReact from './logo.svg';
 import "./card.css"
+import ButtonContatore from './ButtonContatore';
+import ButtonElimina from './ButtonElimina';
 
-export default function Card ({nome, cognome}){
+export default function Card ({user, loadData}){
     return (
         <div className = "Card">
             <div>
@@ -9,12 +11,14 @@ export default function Card ({nome, cognome}){
             </div>
 
             <div>
-                {nome}        
+                {user.nome} {user.cognome}     
             </div>
-
-            <div>
-                {cognome}
-            </div>    
+            <div className='alignButtons flex-container'>
+                <ButtonContatore user = {user} loadData = {loadData} />
+                <ButtonElimina user = {user} loadData = {loadData}/>
+            </div>
         </div>
     );  
 }
+
+// 
